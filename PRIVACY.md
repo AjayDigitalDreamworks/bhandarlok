@@ -32,5 +32,18 @@ You can request deletion of your data at any time.
 5. Your Rights
 You can access, update, or delete your information.
 
-For any privacy concern, contact us at: bhandarlok@app.support
+**Location Access**
+We access your location to sort nearby Bhandaras. This data is not stored unless you post an event.
+
+**Push Notifications**
+We use push notifications to alert users about new nearby events. You can disable notifications from your device settings.
+
+**Event Feedback**
+Your feedback is stored with the event but does not include personal identity unless you provide it in the message.
+
+**Third-Party Services**
+We use Firebase (by Google) for authentication, database, and storage.
+
+
+For any privacy concern, contact us at: autenicweb@gmail.com
 
