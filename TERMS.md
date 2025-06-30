@@ -22,6 +22,14 @@ You can mark attendance and give feedback only once per event.
 
 Your attendance and feedback may be visible to other users.
 
+
+**Event Responsibility**
+We are not liable for any physical events posted by users. Users are responsible for event accuracy and safety.
+
+**Misuse**
+Any misuse such as fake event posting, spam, or abuse may result in account suspension.
+
+
 4. Intellectual Property
 All content (logo, design, UI) belongs to BhandarLok unless otherwise stated.
 
