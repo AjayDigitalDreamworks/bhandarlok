@@ -40,7 +40,8 @@ export const SPACING = {
   xxlarge: 48,
 };
 
-export const API_BASE_URL = 'http://localhost:5000/api';
+// export const API_BASE_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'https://bhandarlok.onrender.com/api';
 
 // Themes for React Native Paper
 export const lightTheme = {

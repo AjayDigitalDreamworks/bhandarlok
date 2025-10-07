@@ -48,8 +48,42 @@ router.get('/nearby', auth, async (req, res) => {
 // Get all bhandaras
 router.get('/', auth, async (req, res) => {
   try {
-    const bhandaras = await Bhandara.find().populate('createdBy', 'username');
+    const bhandaras = await Bhandara.find().populate('createdBy', 'username').populate('attendees', 'username');
     res.json(bhandaras);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get single bhandara
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const bhandara = await Bhandara.findById(req.params.id).populate('createdBy', 'username').populate('attendees', 'username');
+    if (!bhandara) {
+      return res.status(404).json({ error: 'Bhandara not found' });
+    }
+    res.json(bhandara);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Attend or unattend bhandara
+router.post('/:id/attend', auth, async (req, res) => {
+  try {
+    const bhandara = await Bhandara.findById(req.params.id);
+    if (!bhandara) {
+      return res.status(404).json({ error: 'Bhandara not found' });
+    }
+    const userId = req.user.id;
+    const isAttending = bhandara.attendees.includes(userId);
+    if (isAttending) {
+      bhandara.attendees.pull(userId);
+    } else {
+      bhandara.attendees.push(userId);
+    }
+    await bhandara.save();
+    res.json({ attending: !isAttending, attendeesCount: bhandara.attendees.length });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

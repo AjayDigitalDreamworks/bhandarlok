@@ -65,7 +65,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="profile"
+          name="account"
           options={{
             title: 'Profile',
             tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   text: {
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
     color: COLORS.accent,

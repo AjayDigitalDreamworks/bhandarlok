@@ -1,11 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import React, { useRef, useState } from 'react';
-import { Alert, Animated, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Alert,
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Button, TextInput } from 'react-native-paper';
 import { API_BASE_URL, COLORS, SPACING } from './constants';
 
@@ -18,11 +28,14 @@ export default function Share() {
   const [image, setImage] = useState<string | null>(null);
   const [location, setLocation] = useState<Location.LocationObjectCoords | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showStartPicker, setShowStartPicker] = useState(false);
-  const [showEndPicker, setShowEndPicker] = useState(false);
+
+  // For modal picker visibility
+  const [isStartPickerVisible, setStartPickerVisible] = useState(false);
+  const [isEndPickerVisible, setEndPickerVisible] = useState(false);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 500,
@@ -53,16 +66,6 @@ export default function Share() {
     Alert.alert('Location set', 'Your current location has been captured.');
   };
 
-  const onStartTimeChange = (event: any, selectedDate?: Date) => {
-    setShowStartPicker(false);
-    if (selectedDate) setStartTime(selectedDate);
-  };
-
-  const onEndTimeChange = (event: any, selectedDate?: Date) => {
-    setShowEndPicker(false);
-    if (selectedDate) setEndTime(selectedDate);
-  };
-
   const validateForm = () => {
     if (!title.trim()) return 'Title is required';
     if (!description.trim()) return 'Description is required';
@@ -84,10 +87,14 @@ export default function Share() {
       setLoading(false);
       return;
     }
+
     const formData = new FormData();
     formData.append('title', title.trim());
     formData.append('description', description.trim());
-    formData.append('location', JSON.stringify({ type: 'Point', coordinates: [location!.longitude, location!.latitude] }));
+    formData.append('location', JSON.stringify({
+      type: 'Point',
+      coordinates: [location!.longitude, location!.latitude],
+    }));
     formData.append('startTime', startTime.toISOString());
     formData.append('endTime', endTime.toISOString());
     formData.append('additionalDetails', additionalDetails.trim());
@@ -98,15 +105,15 @@ export default function Share() {
         type: 'image/jpeg',
       } as any);
     }
+
     try {
       await axios.post(`${API_BASE_URL}/bhandara`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
-        }
+        },
       });
       Alert.alert('Success', 'Bhandara shared successfully!');
-      // Reset form
       setTitle('');
       setDescription('');
       setStartTime(new Date());
@@ -123,8 +130,14 @@ export default function Share() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <Animated.ScrollView style={{ opacity: fadeAnim }} contentContainerStyle={styles.scrollContainer}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <Animated.ScrollView
+          style={{ opacity: fadeAnim }}
+          contentContainerStyle={styles.scrollContainer}
+        >
           <View style={styles.header}>
             <Ionicons name="add-circle" size={32} color={COLORS.primary} />
             <Text style={styles.title}>Share a Bhandara</Text>
@@ -152,30 +165,46 @@ export default function Share() {
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Timing</Text>
-            <TouchableOpacity style={styles.dateButton} onPress={() => setShowStartPicker(true)}>
+
+            {/* Start Time Button */}
+            <TouchableOpacity style={styles.dateButton} onPress={() => setStartPickerVisible(true)}>
               <Ionicons name="calendar" size={20} color={COLORS.primary} />
               <Text style={styles.dateText}>Start: {startTime.toLocaleString()}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.dateButton} onPress={() => setShowEndPicker(true)}>
+
+            {/* End Time Button */}
+            <TouchableOpacity style={styles.dateButton} onPress={() => setEndPickerVisible(true)}>
               <Ionicons name="calendar" size={20} color={COLORS.primary} />
               <Text style={styles.dateText}>End: {endTime.toLocaleString()}</Text>
             </TouchableOpacity>
-            {showStartPicker && (
-              <DateTimePicker
-                value={startTime}
-                mode="datetime"
-                display="default"
-                onChange={onStartTimeChange}
-              />
-            )}
-            {showEndPicker && (
-              <DateTimePicker
-                value={endTime}
-                mode="datetime"
-                display="default"
-                onChange={onEndTimeChange}
-              />
-            )}
+
+            {/* Start DateTime Picker */}
+            <DateTimePickerModal
+              isVisible={isStartPickerVisible}
+              mode="datetime"
+              date={startTime}
+              onConfirm={(date) => {
+                setStartPickerVisible(false);
+                setStartTime(date);
+              }}
+              onCancel={() => setStartPickerVisible(false)}
+            />
+
+            {/* End DateTime Picker */}
+            <DateTimePickerModal
+              isVisible={isEndPickerVisible}
+              mode="datetime"
+              date={endTime}
+              onConfirm={(date) => {
+                if (date <= startTime) {
+                  Alert.alert('Invalid Date', 'End time must be after start time.');
+                } else {
+                  setEndTime(date);
+                }
+                setEndPickerVisible(false);
+              }}
+              onCancel={() => setEndPickerVisible(false)}
+            />
           </View>
 
           <View style={styles.section}>

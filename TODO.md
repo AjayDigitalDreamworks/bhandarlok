@@ -10,3 +10,8 @@
 - [x] Add global animations and transitions using Animated API
 - [x] Test all screens on device/simulator and fix any issues (Note: Testing requires running the app in Expo Go or simulator)
 - [x] Update README.md with new features and design notes
+- [x] Add attendees field to Bhandara model
+- [x] Add GET /bhandara/:id and POST /bhandara/:id/attend routes in backend
+- [x] Create app/bhandara-detail.tsx screen
+- [x] Update app/explore.tsx to make cards clickable and navigate to detail screen
+- [x] Test bhandara detail view, attendance, directions, and sharing features (Code implemented, ready for testing in Expo)

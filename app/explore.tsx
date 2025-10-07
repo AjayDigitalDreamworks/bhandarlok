@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Card, Paragraph, TextInput, Title } from 'react-native-paper';
 import { API_BASE_URL, COLORS, SPACING } from './constants';
 
@@ -98,16 +99,18 @@ export default function Explore() {
         data={filteredBhandaras}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <Card style={styles.card}>
-            <Card.Content>
-              {item.image && <Card.Cover source={{ uri: item.image }} style={styles.image} />}
-              <Title style={styles.cardTitle}>{item.title}</Title>
-              <Paragraph style={styles.cardDescription}>{item.description}</Paragraph>
-              <Text style={styles.cardDetails}>Start: {new Date(item.startTime).toLocaleString()}</Text>
-              <Text style={styles.cardDetails}>End: {new Date(item.endTime).toLocaleString()}</Text>
-              {item.additionalDetails && <Text style={styles.cardDetails}>{item.additionalDetails}</Text>}
-            </Card.Content>
-          </Card>
+          <TouchableOpacity onPress={() => router.push(`/bhandara-detail?id=${item._id}`)}>
+            <Card style={styles.card}>
+              <Card.Content>
+                {item.image && <Card.Cover source={{ uri: item.image }} style={styles.image} />}
+                <Title style={styles.cardTitle}>{item.title}</Title>
+                <Paragraph style={styles.cardDescription}>{item.description}</Paragraph>
+                <Text style={styles.cardDetails}>Start: {new Date(item.startTime).toLocaleString()}</Text>
+                <Text style={styles.cardDetails}>End: {new Date(item.endTime).toLocaleString()}</Text>
+                {item.additionalDetails && <Text style={styles.cardDetails}>{item.additionalDetails}</Text>}
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[COLORS.primary]} />}
         ListEmptyComponent={<Text style={styles.emptyText}>No bhandaras available.</Text>}
