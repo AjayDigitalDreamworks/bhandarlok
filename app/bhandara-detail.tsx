@@ -94,11 +94,11 @@ export default function BhandaraDetail() {
     }
   };
 
-  const shareBhandara = async () => {
+const shareBhandara = async () => {
   if (!bhandara) return;
   
   try {
-    // Format the message to include all relevant information
+    // First, prepare the message body with the event details
     const message = `
       🎉 **Bhandara Details** 🎉
 
@@ -114,17 +114,26 @@ export default function BhandaraDetail() {
       📲 **Download the app here:** [App Link - Play Store](https://play.google.com/store/apps/details?id=com.yourappname) or [App Link - App Store](https://apps.apple.com/us/app/yourappname/id123456789)
       
       📸 **Image:** ${bhandara.image ? bhandara.image : 'No Image Available'}
-
-      Join me and attend the Bhandara! 🙌
     `;
     
-    // Use Share API to share the formatted message
-    await Share.share({ message });
-
+    // If the image is available, we can include it as part of the share.
+    if (bhandara.image) {
+      // Assuming the image is already uploaded and we have a URL for it
+      await Share.share({
+        title: bhandara.title,
+        message: message,
+        url: bhandara.image // Here we share the actual image URL
+      });
+    } else {
+      // If no image, just share the details without image
+      await Share.share({ message });
+    }
+    
   } catch (error) {
     Alert.alert('Error', 'Failed to share');
   }
 };
+
 
 
   if (loading) {
