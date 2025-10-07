@@ -1,0 +1,12 @@
+- [x] Install premium design dependencies (react-native-paper, expo-font, @react-native-community/datetimepicker, etc.)
+- [x] Update app/constants.ts with extended colors, fonts, and themes (including dark mode)
+- [x] Create app/profile.tsx for user profile screen
+- [x] Create app/settings.tsx for settings with dark mode toggle
+- [x] Update app/_layout.tsx to include new tabs (Profile, Settings), better styles, and theme provider
+- [x] Update app/index.tsx: Add pull-to-refresh, skeleton loaders, fade-in animations, improved card designs
+- [x] Update app/explore.tsx: Add search/filter functionality, map view option, better list handling
+- [x] Update app/share.tsx: Implement date/time pickers, improved validation and UX, animations
+- [x] Update app/account.tsx: Enhanced styling, animations, better form feedback
+- [x] Add global animations and transitions using Animated API
+- [x] Test all screens on device/simulator and fix any issues (Note: Testing requires running the app in Expo Go or simulator)
+- [x] Update README.md with new features and design notes
