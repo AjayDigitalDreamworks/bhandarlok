@@ -95,14 +95,37 @@ export default function BhandaraDetail() {
   };
 
   const shareBhandara = async () => {
-    if (!bhandara) return;
-    try {
-      const message = `Check out this Bhandara: ${bhandara.title}\n${bhandara.description}\nStart: ${new Date(bhandara.startTime).toLocaleString()}\nEnd: ${new Date(bhandara.endTime).toLocaleString()}`;
-      await Share.share({ message });
-    } catch (error) {
-      Alert.alert('Error', 'Failed to share');
-    }
-  };
+  if (!bhandara) return;
+  
+  try {
+    // Format the message to include all relevant information
+    const message = `
+      🎉 **Bhandara Details** 🎉
+
+      **Title:** ${bhandara.title}
+      **Description:** ${bhandara.description}
+      **Start Time:** ${new Date(bhandara.startTime).toLocaleString()}
+      **End Time:** ${new Date(bhandara.endTime).toLocaleString()}
+
+      ${bhandara.additionalDetails ? `**Additional Info:** ${bhandara.additionalDetails}` : ''}
+      
+      **Location:** [Get Directions](https://www.google.com/maps/dir/?api=1&origin=${bhandara.location.coordinates[1]},${bhandara.location.coordinates[0]})
+      
+      📲 **Download the app here:** [App Link - Play Store](https://play.google.com/store/apps/details?id=com.yourappname) or [App Link - App Store](https://apps.apple.com/us/app/yourappname/id123456789)
+      
+      📸 **Image:** ${bhandara.image ? bhandara.image : 'No Image Available'}
+
+      Join me and attend the Bhandara! 🙌
+    `;
+    
+    // Use Share API to share the formatted message
+    await Share.share({ message });
+
+  } catch (error) {
+    Alert.alert('Error', 'Failed to share');
+  }
+};
+
 
   if (loading) {
     return (
