@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Card, Switch, Title } from 'react-native-paper';
-import { COLORS, SPACING } from './constants';
+import { COLORS, SPACING } from '../constants';
 
 export default function Settings() {
   const [isDarkMode, setIsDarkMode] = useState(false);

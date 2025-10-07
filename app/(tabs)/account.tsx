@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Animated, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Button, Card, TextInput, Title } from 'react-native-paper';
-import { API_BASE_URL, COLORS, SPACING } from './constants';
+import { API_BASE_URL, COLORS, SPACING } from '../constants';
 
 interface User {
   _id: string;

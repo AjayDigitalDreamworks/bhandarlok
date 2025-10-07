@@ -7,7 +7,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Button, Card, Paragraph, Title } from 'react-native-paper';
-import { API_BASE_URL, COLORS, SPACING } from './constants';
+import { API_BASE_URL, COLORS, SPACING } from '../constants';
 
 interface Bhandara {
   _id: string;
@@ -24,7 +24,7 @@ interface Bhandara {
   createdBy: { _id: string; username: string };
 }
 
-export default function BhandaraDetail() {
+export default function BhandaraDetailModal() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [bhandara, setBhandara] = useState<Bhandara | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,47 +94,45 @@ export default function BhandaraDetail() {
     }
   };
 
-const shareBhandara = async () => {
-  if (!bhandara) return;
-  
-  try {
-    // First, prepare the message body with the event details
-    const message = `
-      🎉 **Bhandara Details** 🎉
+  const shareBhandara = async () => {
+    if (!bhandara) return;
 
-      **Title:** ${bhandara.title}
-      **Description:** ${bhandara.description}
-      **Start Time:** ${new Date(bhandara.startTime).toLocaleString()}
-      **End Time:** ${new Date(bhandara.endTime).toLocaleString()}
+    try {
+      // First, prepare the message body with the event details
+      const message = `
+        🎉 **Bhandara Details** 🎉
 
-      ${bhandara.additionalDetails ? `**Additional Info:** ${bhandara.additionalDetails}` : ''}
-      
-      **Location:** [Get Directions](https://www.google.com/maps/dir/?api=1&origin=${bhandara.location.coordinates[1]},${bhandara.location.coordinates[0]})
-      
-      📲 **Download the app here:** [App Link - Play Store](https://play.google.com/store/apps/details?id=com.yourappname) or [App Link - App Store](https://apps.apple.com/us/app/yourappname/id123456789)
-      
-      📸 **Image:** ${bhandara.image ? bhandara.image : 'No Image Available'}
-    `;
-    
-    // If the image is available, we can include it as part of the share.
-    if (bhandara.image) {
-      // Assuming the image is already uploaded and we have a URL for it
-      await Share.share({
-        title: bhandara.title,
-        message: message,
-        url: bhandara.image // Here we share the actual image URL
-      });
-    } else {
-      // If no image, just share the details without image
-      await Share.share({ message });
+        **Title:** ${bhandara.title}
+        **Description:** ${bhandara.description}
+        **Start Time:** ${new Date(bhandara.startTime).toLocaleString()}
+        **End Time:** ${new Date(bhandara.endTime).toLocaleString()}
+
+        ${bhandara.additionalDetails ? `**Additional Info:** ${bhandara.additionalDetails}` : ''}
+
+        **Location:** [Get Directions](https://www.google.com/maps/dir/?api=1&origin=${bhandara.location.coordinates[1]},${bhandara.location.coordinates[0]})
+
+        📲 **Download the app here:** [App Link - Play Store](https://play.google.com/store/apps/details?id=com.yourappname) or [App Link - App Store](https://apps.apple.com/us/app/yourappname/id123456789)
+
+        📸 **Image:** ${bhandara.image ? bhandara.image : 'No Image Available'}
+      `;
+
+      // If the image is available, we can include it as part of the share.
+      if (bhandara.image) {
+        // Assuming the image is already uploaded and we have a URL for it
+        await Share.share({
+          title: bhandara.title,
+          message: message,
+          url: bhandara.image // Here we share the actual image URL
+        });
+      } else {
+        // If no image, just share the details without image
+        await Share.share({ message });
+      }
+
+    } catch (error) {
+      Alert.alert('Error', 'Failed to share');
     }
-    
-  } catch (error) {
-    Alert.alert('Error', 'Failed to share');
-  }
-};
-
-
+  };
 
   if (loading) {
     return (
@@ -154,11 +152,10 @@ const shareBhandara = async () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
+      <View style={styles.closeButton}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color={COLORS.primary} />
+          <Ionicons name="close" size={30} color={COLORS.primary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Bhandara Details</Text>
       </View>
       <Card style={styles.card}>
         {bhandara.image && <Card.Cover source={{ uri: bhandara.image }} style={styles.image} />}
@@ -189,8 +186,7 @@ const shareBhandara = async () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  header: { flexDirection: 'row', alignItems: 'center', padding: SPACING.large, backgroundColor: COLORS.accent },
-  title: { fontSize: 20, fontWeight: 'bold', color: COLORS.primary, marginLeft: SPACING.medium },
+  closeButton: { alignItems: 'flex-end', padding: SPACING.medium },
   card: { margin: SPACING.medium, borderRadius: 12, elevation: 6 },
   image: { height: 200, borderTopLeftRadius: 12, borderTopRightRadius: 12 },
   cardTitle: { fontSize: 22, fontWeight: 'bold', color: COLORS.text, marginBottom: SPACING.small },

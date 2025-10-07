@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Card, Paragraph, TextInput, Title } from 'react-native-paper';
-import { API_BASE_URL, COLORS, SPACING } from './constants';
+import { API_BASE_URL, COLORS, SPACING } from '../constants';
 
 interface Bhandara {
   _id: string;
@@ -99,7 +99,7 @@ export default function Explore() {
         data={filteredBhandaras}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => router.push(`/bhandara-detail?id=${item._id}`)}>
+          <TouchableOpacity onPress={() => router.push(`/bhandara-detail/${item._id}`)}>
             <Card style={styles.card}>
               <Card.Content>
                 {item.image && <Card.Cover source={{ uri: item.image }} style={styles.image} />}

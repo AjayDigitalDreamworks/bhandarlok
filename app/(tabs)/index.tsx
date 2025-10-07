@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Card, FAB, Paragraph, Title } from 'react-native-paper';
-import { API_BASE_URL, COLORS, SPACING } from './constants';
+import { API_BASE_URL, COLORS, SPACING } from '../constants';
 
 interface Bhandara {
   _id: string;

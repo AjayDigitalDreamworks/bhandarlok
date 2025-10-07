@@ -1,11 +1,10 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { COLORS, lightTheme } from './constants';
 
-export default function TabLayout() {
+export default function RootLayout() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,60 +24,7 @@ export default function TabLayout() {
 
   return (
     <PaperProvider theme={lightTheme}>
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: COLORS.primary,
-          tabBarInactiveTintColor: COLORS.textLight,
-          tabBarStyle: {
-            backgroundColor: COLORS.accent,
-            borderTopColor: COLORS.secondary,
-            borderTopWidth: 1,
-            elevation: 8,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: -2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-          },
-          headerShown: false,
-          tabBarLabelStyle: { fontSize: 12, fontWeight: 'bold' },
-        }}
-      >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: 'Home',
-            tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
-          }}
-        />
-        <Tabs.Screen
-          name="share"
-          options={{
-            title: 'Share',
-            tabBarIcon: ({ color, size }) => <Ionicons name="add-circle" size={size} color={color} />,
-          }}
-        />
-        <Tabs.Screen
-          name="explore"
-          options={{
-            title: 'Explore',
-            tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />,
-          }}
-        />
-        <Tabs.Screen
-          name="account"
-          options={{
-            title: 'Profile',
-            tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
-          }}
-        />
-        <Tabs.Screen
-          name="settings"
-          options={{
-            title: 'Settings',
-            tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
-          }}
-        />
-      </Tabs>
+      <Stack screenOptions={{ headerShown: false }} />
     </PaperProvider>
   );
 }

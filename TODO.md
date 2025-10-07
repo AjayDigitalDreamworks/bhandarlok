@@ -1,17 +1,4 @@
-- [x] Install premium design dependencies (react-native-paper, expo-font, @react-native-community/datetimepicker, etc.)
-- [x] Update app/constants.ts with extended colors, fonts, and themes (including dark mode)
-- [x] Create app/profile.tsx for user profile screen
-- [x] Create app/settings.tsx for settings with dark mode toggle
-- [x] Update app/_layout.tsx to include new tabs (Profile, Settings), better styles, and theme provider
-- [x] Update app/index.tsx: Add pull-to-refresh, skeleton loaders, fade-in animations, improved card designs
-- [x] Update app/explore.tsx: Add search/filter functionality, map view option, better list handling
-- [x] Update app/share.tsx: Implement date/time pickers, improved validation and UX, animations
-- [x] Update app/account.tsx: Enhanced styling, animations, better form feedback
-- [x] Add global animations and transitions using Animated API
-- [x] Test all screens on device/simulator and fix any issues (Note: Testing requires running the app in Expo Go or simulator)
-- [x] Update README.md with new features and design notes
-- [x] Add attendees field to Bhandara model
-- [x] Add GET /bhandara/:id and POST /bhandara/:id/attend routes in backend
-- [x] Create app/bhandara-detail.tsx screen
-- [x] Update app/explore.tsx to make cards clickable and navigate to detail screen
-- [x] Test bhandara detail view, attendance, directions, and sharing features (Code implemented, ready for testing in Expo)
+- [x] Create app/bhandara-detail/_layout.tsx with modal presentation and hidden header
+- [x] Create app/bhandara-detail/[id].tsx with detail screen code, close button, and type-safe Bhandara interface
+- [x] Update app/explore.tsx to navigate to /bhandara-detail/${item._id}
+- [x] Test modal opening, closing with router.back(), and swipe down on iOS

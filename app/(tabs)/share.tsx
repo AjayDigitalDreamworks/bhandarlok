@@ -5,19 +5,19 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Alert,
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    Alert,
+    Animated,
+    KeyboardAvoidingView,
+    Platform,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Button, TextInput } from 'react-native-paper';
-import { API_BASE_URL, COLORS, SPACING } from './constants';
+import { API_BASE_URL, COLORS, SPACING } from '../constants';
 
 export default function Share() {
   const [title, setTitle] = useState('');
